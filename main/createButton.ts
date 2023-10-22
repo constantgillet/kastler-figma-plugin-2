@@ -1,70 +1,32 @@
 const buttonVariantsConfig = [
   {
-    name: "LabelOnly, Contain, Accent, Medium, Enabled",
-    backgroundColor: { r: 1, g: 1, b: 1 },
+    name: "Config=LabelOnly, State=Enabled, Type=Contain, Color=Accent, Size=Medium",
+    backgroundColor: { r: 71, g: 123, b: 255 }, //rgba(71, 123, 255, 1)
   },
   {
-    name: "LabelOnly, Contain, Accent, Medium, Hovered",
-    backgroundColor: { r: 1, g: 1, b: 1 },
+    name: "Config=LabelOnly, State=Hovered, Type=Contain, Color=Accent, Size=Medium",
+    backgroundColor: { r: 80, g: 71, b: 255 },
   },
 ];
 
 export const createButton = async () => {
-  // Create a component
-  // const component = figma.createComponent();
-  // component.name = "Button";
-  // //   component.addComponentProperty("Config", "TEXT", "LabelOnly");
-  // //   component.addComponentProperty("Type", "TEXT", "Contain");
-  // //   component.addComponentProperty("Color", "TEXT", "Accent");
-  // //   component.addComponentProperty("Size", "TEXT", "Medium");
-  // // component.addComponentProperty("State", "TEXT", "Enabled");
-  // component.addComponentProperty("Label", "TEXT", "{{Button}}");
-
-  // const button = figma.createFrame();
-  // button.name = `LabelOnly, Contain, Accent, Medium, Enabled`;
-  // button.fills = [{ type: "SOLID", color: { r: 0.71, g: 0.123, b: 0.255 } }];
-  // button.layoutMode = "HORIZONTAL";
-  // button.itemSpacing = 4;
-  // button.constraints = { horizontal: "CENTER", vertical: "CENTER" };
-  // button.paddingLeft = 12;
-  // button.paddingRight = 12;
-  // button.paddingTop = 6;
-  // button.paddingBottom = 6;
-
-  // const buttonTextNode = figma.createText();
-  // buttonTextNode.name = "Label";
-  // buttonTextNode.characters = "Button";
-  // buttonTextNode.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
-  // buttonTextNode.textAlignHorizontal = "CENTER"; // Align the text horizontally
-  // buttonTextNode.textAlignVertical = "CENTER"; // Align the text
-  // buttonTextNode.fontSize = 14;
-
-  // const componentSetNode = figma.combineAsVariants(
-  //   [component],
-  //   figma.currentPage
-  // );
-
-  // figma.currentPage.appendChild(componentSetNode);
-  // componentSetNode.appendChild(component);
-  // button.appendChild(buttonTextNode);
-  // component.appendChild(button);
-
-  //   component.appendChild(variantComponent);
-
-  let arr = [],
-    x = 0;
+  let arr = [];
 
   for (let i = 0; i < buttonVariantsConfig.length; i++) {
     const component = figma.createComponent();
+    //component.name = buttonVariantsConfig[i].name;
     component.name = buttonVariantsConfig[i].name;
+
+    const color = (buttonVariantsConfig[i].backgroundColor = {
+      r: buttonVariantsConfig[i].backgroundColor.r / 255,
+      g: buttonVariantsConfig[i].backgroundColor.g / 255,
+      b: buttonVariantsConfig[i].backgroundColor.b / 255,
+    });
+
     component.fills = [
       {
         type: "SOLID",
-        color: {
-          r: Math.random(),
-          g: Math.random(),
-          b: Math.random(),
-        },
+        color: color,
       },
     ];
 
@@ -76,11 +38,13 @@ export const createButton = async () => {
     component.layoutAlign = "CENTER";
     component.primaryAxisAlignItems = "CENTER";
     component.counterAxisAlignItems = "CENTER";
+    component.cornerRadius = 12;
 
-    if (i > 0) {
-      x += component.width + 20;
-      component.x = x;
-    }
+    const labelProperty = component.addComponentProperty(
+      "Label",
+      "TEXT",
+      "{Button}"
+    );
 
     const buttonText = figma.createText();
     await figma.loadFontAsync({ family: "Inter", style: "Bold" });
@@ -98,6 +62,7 @@ export const createButton = async () => {
 
     arr.push(component);
   }
+
   const buttonMainComponent = figma.combineAsVariants(arr, figma.currentPage);
   buttonMainComponent.name = "Button";
   buttonMainComponent.horizontalPadding = 80;
@@ -108,6 +73,6 @@ export const createButton = async () => {
   buttonMainComponent.primaryAxisSizingMode = "FIXED";
   buttonMainComponent.itemSpacing = 10;
   buttonMainComponent.counterAxisSpacing = 10;
-
+  buttonMainComponent.resizeWithoutConstraints(600, 48);
   //layout
 };
