@@ -100,5 +100,12 @@ export const createButton = async () => {
   buttonMainComponent.name = "Button";
   buttonMainComponent.horizontalPadding = 80;
   buttonMainComponent.verticalPadding = 80;
+  buttonMainComponent.counterAxisSizingMode = "AUTO";
+  buttonMainComponent.layoutMode = "HORIZONTAL";
+  buttonMainComponent.layoutWrap = "WRAP";
+  buttonMainComponent.primaryAxisSizingMode = "FIXED";
+  buttonMainComponent.itemSpacing = 10;
+  buttonMainComponent.counterAxisSpacing = 10;
+
   //layout
 };
