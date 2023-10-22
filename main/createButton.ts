@@ -60,6 +60,10 @@ export const createButton = async () => {
 
     component.appendChild(buttonText);
 
+    component.children[0].componentPropertyReferences = {
+      characters: labelProperty,
+    };
+
     arr.push(component);
   }
 
