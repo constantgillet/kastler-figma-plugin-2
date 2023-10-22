@@ -19,7 +19,7 @@ figma.ui.onmessage = async (msg) => {
     figma.viewport.scrollAndZoomIntoView(nodes);
   } else if (msg.type === "import") {
     console.log("importing");
-    // createTextInput();
+    createTextInput();
     createButton();
   }
 };

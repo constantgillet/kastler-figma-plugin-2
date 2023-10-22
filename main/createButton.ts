@@ -121,6 +121,12 @@ export const createButton = async () => {
   buttonMainComponent.primaryAxisSizingMode = "FIXED";
   buttonMainComponent.itemSpacing = 10;
   buttonMainComponent.counterAxisSpacing = 10;
+  buttonMainComponent.fills = [
+    {
+      type: "SOLID",
+      color: getColor({ r: 254, g: 252, b: 254 }), //rgba(244, 244, 245, 1)
+    },
+  ];
   buttonMainComponent.resizeWithoutConstraints(659, 48);
   //layout
 };
@@ -131,7 +137,7 @@ type Color = {
   b: number;
 };
 
-const getColor = (color: Color) => {
+export const getColor = (color: Color) => {
   return {
     r: color.r / 255,
     g: color.g / 255,
