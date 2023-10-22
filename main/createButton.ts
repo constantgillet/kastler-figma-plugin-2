@@ -2,10 +2,40 @@ const buttonVariantsConfig = [
   {
     name: "Config=LabelOnly, State=Enabled, Type=Contain, Color=Accent, Size=Medium",
     backgroundColor: { r: 71, g: 123, b: 255 }, //rgba(71, 123, 255, 1)
+    textColor: { r: 235, g: 231, b: 238 },
   },
   {
     name: "Config=LabelOnly, State=Hovered, Type=Contain, Color=Accent, Size=Medium",
     backgroundColor: { r: 80, g: 71, b: 255 },
+    textColor: { r: 235, g: 231, b: 238 },
+  },
+  {
+    name: "Config=LabelOnly, State=Focused, Type=Contain, Color=Accent, Size=Medium",
+    backgroundColor: { r: 108, g: 148, b: 255 }, //rgba(108, 148, 255, 1)
+    borderColor: { r: 71, g: 123, b: 255 },
+    textColor: { r: 235, g: 231, b: 238 },
+  },
+  {
+    name: "Config=LabelOnly, State=Disabled, Type=Contain, Color=Accent, Size=Medium",
+    backgroundColor: { r: 233, g: 232, b: 233 }, // rgba(233, 232, 233, 1)
+    textColor: { r: 197, g: 192, b: 199 }, //rgba(197, 192, 199, 1)
+  },
+  {
+    name: "Config=LabelOnly, State=Disabled, Type=Ghost, Color=Accent, Size=Medium",
+    textColor: { r: 15, g: 13, b: 19 }, //rgba(15, 13, 19, 1)
+  },
+  {
+    name: "Config=LabelOnly, State=Hovered, Type=Ghost, Color=Accent, Size=Medium",
+    textColor: { r: 99, g: 92, b: 104 }, //rgba(99, 92, 104, 1)
+  },
+  {
+    name: "Config=LabelOnly, State=Focused, Type=Ghost, Color=Accent, Size=Medium",
+    textColor: { r: 48, g: 45, b: 50 }, //rgba(48, 45, 50, 1)
+    borderColor: { r: 48, g: 45, b: 50 }, //rgba(48, 45, 50, 1)
+  },
+  {
+    name: "Config=LabelOnly, State=Disabled, Type=Ghost, Color=Accent, Size=Medium",
+    textColor: { r: 197, g: 192, b: 199 }, //rgba(197, 192, 199, 1)
   },
 ];
 
@@ -14,21 +44,33 @@ export const createButton = async () => {
 
   for (let i = 0; i < buttonVariantsConfig.length; i++) {
     const component = figma.createComponent();
-    //component.name = buttonVariantsConfig[i].name;
-    component.name = buttonVariantsConfig[i].name;
+    const buttonVariantsStyle = buttonVariantsConfig[i];
 
-    const color = (buttonVariantsConfig[i].backgroundColor = {
-      r: buttonVariantsConfig[i].backgroundColor.r / 255,
-      g: buttonVariantsConfig[i].backgroundColor.g / 255,
-      b: buttonVariantsConfig[i].backgroundColor.b / 255,
-    });
+    component.name = buttonVariantsStyle.name;
 
-    component.fills = [
-      {
-        type: "SOLID",
-        color: color,
-      },
-    ];
+    if (buttonVariantsStyle.backgroundColor) {
+      const color = getColor(buttonVariantsStyle.backgroundColor);
+
+      component.fills = [
+        {
+          type: "SOLID",
+          color: color,
+        },
+      ];
+    }
+
+    if (buttonVariantsStyle.borderColor) {
+      const borderColor = getColor(buttonVariantsStyle.borderColor);
+
+      component.strokes = [
+        {
+          type: "SOLID",
+          color: borderColor,
+        },
+      ];
+
+      component.strokeWeight = 2;
+    }
 
     component.resizeWithoutConstraints(200, 48);
     component.layoutMode = "HORIZONTAL";
@@ -54,7 +96,9 @@ export const createButton = async () => {
     };
     buttonText.characters = "{Button}"; // Set the text content
     buttonText.fontSize = 16;
-    buttonText.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+    buttonText.fills = [
+      { type: "SOLID", color: getColor(buttonVariantsStyle.textColor) },
+    ];
     buttonText.textAlignHorizontal = "CENTER"; // Align the text horizontally
     buttonText.textAlignVertical = "CENTER";
 
@@ -77,6 +121,20 @@ export const createButton = async () => {
   buttonMainComponent.primaryAxisSizingMode = "FIXED";
   buttonMainComponent.itemSpacing = 10;
   buttonMainComponent.counterAxisSpacing = 10;
-  buttonMainComponent.resizeWithoutConstraints(600, 48);
+  buttonMainComponent.resizeWithoutConstraints(659, 48);
   //layout
+};
+
+type Color = {
+  r: number;
+  g: number;
+  b: number;
+};
+
+const getColor = (color: Color) => {
+  return {
+    r: color.r / 255,
+    g: color.g / 255,
+    b: color.b / 255,
+  };
 };
