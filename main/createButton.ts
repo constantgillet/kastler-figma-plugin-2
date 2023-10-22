@@ -74,6 +74,8 @@ export const createButton = async () => {
     component.horizontalPadding = 24;
     component.verticalPadding = 12;
     component.layoutAlign = "CENTER";
+    component.primaryAxisAlignItems = "CENTER";
+    component.counterAxisAlignItems = "CENTER";
 
     if (i > 0) {
       x += component.width + 20;
