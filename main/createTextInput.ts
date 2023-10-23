@@ -14,7 +14,7 @@ export const createTextInput = async () => {
   const labelProperty = component.addComponentProperty(
     "Label",
     "TEXT",
-    "{Button}"
+    "{Label}"
   );
 
   const placeholderProperty = component.addComponentProperty(
